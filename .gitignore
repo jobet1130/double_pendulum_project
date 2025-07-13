@@ -1,0 +1,73 @@
+# ========================
+# Python
+# ========================
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# ========================
+# Virtual Environments
+# ========================
+.venv/
+env/
+venv/
+ENV/
+*.env
+
+# ========================
+# Jupyter Notebook Checkpoints
+# ========================
+.ipynb_checkpoints/
+
+# ========================
+# VSCode & IDEs
+# ========================
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# ========================
+# OS Generated Files
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Data & Results
+# ========================
+data/raw/
+data/processed/
+results/
+*.csv
+
+# Keep schema/structure in Git
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!results/.gitkeep
+
+# ========================
+# Plots & Media
+# ========================
+plots/*.png
+plots/*.mp4
+plots/*.gif
+plots/*.jpg
+*.svg
+
+# ========================
+# Logs and Temporary Files
+# ========================
+*.log
+*.tmp
+*.bak
+
+# ========================
+# Python Notebooks (Optional)
+# ========================
+# If you want to ignore all notebooks (not typical for data science)
+# *.ipynb
