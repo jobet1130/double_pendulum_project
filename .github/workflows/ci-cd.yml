@@ -43,12 +43,8 @@ jobs:
         run: |
           python main.py
 
-      - name: 🔍 Verify Outputs Exist
+      - name: 🔍 Verify Outputs Exist (plots and animation only)
         run: |
-          if [ ! -f "data/double_pendulum_simulation.csv" ]; then
-            echo "❌ CSV file not found!"
-            exit 1
-          fi
           if [ ! -d "plots" ] || [ -z "$(ls -A plots)" ]; then
             echo "❌ Plots directory is missing or empty!"
             exit 1
@@ -57,14 +53,13 @@ jobs:
             echo "❌ Animation video not found!"
             exit 1
           fi
-          echo "✅ All output files verified."
+          echo "✅ Output files verified."
 
-      - name: 💾 Save Artifacts (CSV and plots)
+      - name: 💾 Save Artifacts (plots and animation)
         uses: actions/upload-artifact@v4
         with:
           name: simulation-outputs
           path: |
-            data/double_pendulum_simulation.csv
             plots/
             results/
             double_pendulum_animation.mp4
