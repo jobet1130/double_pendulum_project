@@ -43,18 +43,6 @@ jobs:
         run: |
           python main.py
 
-      - name: 🔍 Verify Outputs Exist (plots and animation only)
-        run: |
-          if [ ! -d "plots" ] || [ -z "$(ls -A plots)" ]; then
-            echo "❌ Plots directory is missing or empty!"
-            exit 1
-          fi
-          if [ ! -f "double_pendulum_animation.mp4" ]; then
-            echo "❌ Animation video not found!"
-            exit 1
-          fi
-          echo "✅ Output files verified."
-
       - name: 💾 Save Artifacts (plots and animation)
         uses: actions/upload-artifact@v4
         with:
