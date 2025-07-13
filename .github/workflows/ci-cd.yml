@@ -2,67 +2,67 @@ name: 🧪🔁 CI/CD: Double Pendulum Project
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: ⬇️ Checkout Repository
-      uses: actions/checkout@v4
+      - name: ⬇️ Checkout Repository
+        uses: actions/checkout@v4
 
-    - name: 🐍 Set Up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
+      - name: 🐍 Set Up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-    - name: ♻️ Cache pip dependencies
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
+      - name: ♻️ Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
-    - name: 📦 Install Dependencies
-      run: |
-        pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: 📦 Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: ✅ Code Check
-      run: |
-        python -m compileall src/
-        python -m compileall main.py
+      - name: ✅ Code Check
+        run: |
+          python -m compileall src/
+          python -m compileall main.py
 
-    - name: 📊 Run Simulation and Generate Outputs
-      run: |
-        python main.py
+      - name: 📊 Run Simulation and Generate Outputs
+        run: |
+          python main.py
 
-    - name: 🔍 Verify Outputs Exist
-      run: |
-        if [ ! -f "data/double_pendulum_simulation.csv" ]; then
-          echo "❌ CSV file not found!"
-          exit 1
-        fi
-        if [ ! -d "plots" ] || [ -z "$(ls -A plots)" ]; then
-          echo "❌ Plots directory is missing or empty!"
-          exit 1
-        fi
-        if [ ! -f "double_pendulum_animation.mp4" ]; then
-          echo "❌ Animation video not found!"
-          exit 1
-        fi
-        echo "✅ All output files verified."
+      - name: 🔍 Verify Outputs Exist
+        run: |
+          if [ ! -f "data/double_pendulum_simulation.csv" ]; then
+            echo "❌ CSV file not found!"
+            exit 1
+          fi
+          if [ ! -d "plots" ] || [ -z "$(ls -A plots)" ]; then
+            echo "❌ Plots directory is missing or empty!"
+            exit 1
+          fi
+          if [ ! -f "double_pendulum_animation.mp4" ]; then
+            echo "❌ Animation video not found!"
+            exit 1
+          fi
+          echo "✅ All output files verified."
 
-    - name: 💾 Save Artifacts (CSV and plots)
-      uses: actions/upload-artifact@v4
-      with:
-        name: simulation-outputs
-        path: |
-          data/double_pendulum_simulation.csv
-          plots/
-          results/
-          double_pendulum_animation.mp4
+      - name: 💾 Save Artifacts (CSV and plots)
+        uses: actions/upload-artifact@v4
+        with:
+          name: simulation-outputs
+          path: |
+            data/double_pendulum_simulation.csv
+            plots/
+            results/
+            double_pendulum_animation.mp4
