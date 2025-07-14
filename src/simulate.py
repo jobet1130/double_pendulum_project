@@ -8,7 +8,7 @@ def double_pendulum_ode(t, y, m1, m2, l1, l2, g):
     θ1, ω1, θ2, ω2 = y
     Δ = θ2 - θ1
 
-    den1 = (m1 + m2) * l1 - m2 * l1 * np.cos(Δ) ** 2
+    den1 = (m1 + m2) * l1 - m2 * l1 * np.cos(Δ)**2
     den2 = (l2 / l1) * den1
 
     dydt = np.zeros_like(y)
@@ -51,6 +51,14 @@ def compute_cartesian(θ1, θ2, l1, l2):
     return x1, y1, x2, y2
 
 
+def compute_energy(θ1, θ2, ω1, ω2, m1, m2, l1, l2, g):
+    KE = 0.5 * m1 * (l1 * ω1)**2 + \
+         0.5 * m2 * ((l1 * ω1)**2 + (l2 * ω2)**2 + 2 * l1 * l2 * ω1 * ω2 * np.cos(θ1 - θ2))
+    PE = - (m1 + m2) * g * l1 * np.cos(θ1) - m2 * g * l2 * np.cos(θ2)
+    TME = KE + PE
+    return KE, PE, TME
+
+
 def save_simulation_data(df, output_path):
     output_path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(output_path, index=False)
@@ -71,6 +79,7 @@ def main():
     θ1, ω1, θ2, ω2 = sol.y
 
     x1, y1, x2, y2 = compute_cartesian(θ1, θ2, l1, l2)
+    KE, PE, TME = compute_energy(θ1, θ2, ω1, ω2, m1, m2, l1, l2, g)
 
     df = pd.DataFrame({
         "time": t_eval,
@@ -81,7 +90,10 @@ def main():
         "x1": x1,
         "y1": y1,
         "x2": x2,
-        "y2": y2
+        "y2": y2,
+        "KE": KE,
+        "PE": PE,
+        "TME": TME
     })
 
     DATA_PATH = Path("../data/processed/double_pendulum_processed.csv")
